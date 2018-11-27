@@ -77,8 +77,6 @@ def train_test_split(dataset):
     return training_data, testing_data
 
 
-
-
 def test(data, tree):
     queries = data.iloc[:, :-1].to_dict(orient="records")
     predicted = pd.DataFrame(columns=["predicted"])
@@ -88,22 +86,25 @@ def test(data, tree):
 
     print('The prediction accuracy is: ', (np.sum(predicted["predicted"] == data["class"]) / len(data)) * 100, '%')
 
-
-
+def gather_data(dataset):
+    filename = './data/cleveland_data.csv'
+    dataset += loadCsv(filename)
+    filename = './data/hungarian_data.csv'
+    dataset += loadCsv(filename)
+    filename = './data/switzerland_data.csv'
+    dataset += loadCsv(filename)
+    filename = './data/va_data.csv'
+    dataset += loadCsv(filename)
+    return dataset
 
 def main():
-    dataset = []
-    filename = './data/clevelanddata.csv'
-    dataset += loadCsv(filename)
+    dataset = gather_data(dataset=[])
     clusteredfile = open("data/clusteredfile.csv", "w")
     for i in range(len(dataset)):
+        clusteredfile.write(",".join(dataset[i]))
+        if i != len(dataset) - 1:
+            clusteredfile.write("\n")
 
-    for i in range(len(dataset)):
-        for j in range(len(dataset[i])):
-            if (j == (len(dataset[i]) - 1)):
-                clusteredfile.write(str(dataset[i][j]) + "\n")
-            else:
-                clusteredfile.write(str(dataset[i][j]) + ",")
     clusteredfile.close()
     dataset = pd.read_csv('data/clusteredfile.csv',
                           names=['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
