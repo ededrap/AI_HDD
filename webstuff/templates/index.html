@@ -121,7 +121,7 @@ $(document).ready(function(){
   var $myForm = $('#sebuah-form');
   $myForm.submit(function(event){
     event.preventDefault();
-    var $formData = $myForm.serializeArray();
+    var $formData = $myForm.serialize();
     console.log($formData);
     $.ajax({
       method: "POST",
