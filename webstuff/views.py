@@ -5,15 +5,7 @@ from .forms import HeartForm
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Greetings.")
+    return render(request, 'index.html', {'form': HeartForm})
 
-def get_name(request):
-    if request.method == 'POST':
-        form = HeartForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect('')
-
-    else:
-        form = HeartForm()
-    
-    return render(request, 'index.html', {'form':form})
+def calculate(request):
+    print("xd")

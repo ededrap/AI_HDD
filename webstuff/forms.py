@@ -11,4 +11,4 @@ class HeartForm(forms.Form):
     attribute3 = forms.CharField(label='Blood pressure', widget=forms.TextInput(attrs=attrs))
     attribute4 = forms.CharField(label='Do you smoke?', widget=forms.TextInput(attrs=attrs))
     attribute5 = forms.CharField(label='Do you do sports often?', widget=forms.TextInput(attrs=attrs))
-    attribute6 = forms.ChoiceField(label = 'Sex', choices=("Male", "Female"), widget=forms.SelectMultiple(attrs=attrs))
+    # attribute6 = forms.ChoiceField(label = 'Sex', choices=("Male", "Female"), widget=forms.SelectMultiple(attrs=attrs))

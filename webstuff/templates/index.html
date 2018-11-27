@@ -26,6 +26,11 @@ body, html {
     padding: 16px;
 }
 </style>
+<head>
+<script src="jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+</head>
 <body>
 
 
@@ -76,7 +81,7 @@ body, html {
   <p class="w3-center w3-large">Please input your message:</p>
   <div style="margin-top:48px">
     <br>
-    <form action="/" method="post" >
+    <form action="/" method="post" id="sebuah-form">
       <!-- <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
@@ -111,6 +116,18 @@ function onClick(element) {
   var captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
 }
+
+$(document).ready(function(){
+  var $myForm = $('#sebuah-form');
+  $myForm.submit(function(event){
+    event.preventDefault();
+    var $formData = $myForm.serializeArray();
+    console.log($formData);
+    $.ajax({
+      method: "POST",
+    });
+  });
+});
 
 
 // Toggle between showing and hiding the sidebar when clicking the menu icon
