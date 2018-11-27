@@ -76,23 +76,34 @@ $(document).ready(function(){
   <p class="w3-center w3-large">Please input your message:</p>
   <div style="margin-top:48px">
     <br>
-    <form action="/" method="post" >
-      {% csrf token %}
-      {}
+    <div class="forminti">
+      <!-- <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
+      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p> -->
+      {{ form }}
       <p>
         <button class="w3-button w3-black" type="submit">
           <i class="fa fa-paper-plane"></i> SUBMIT
         </button>
       </p>
-    </form>
+    </div>
     
   </div>
 </div>
 
 <!-- About Section -->
 <div class="w3-container" style="padding:128px 16px" id="about">
-  <h3 class="w3-center">ABOUT THE COMPANY</h3>
-  <p class="w3-center w3-large">Key features of our company</p>
+  <h3 class="w3-center w3-text-white">ABOUT THE TEAM</h3>
+  <p class="w3-center w3-large w3-text-white">Strike Counter</p>
   <div class="w3-row-padding w3-center" style="margin-top:64px">
     <div class="w3-quarter">
       <i class="fa fa-desktop w3-margin-bottom w3-jumbo w3-center"></i>
