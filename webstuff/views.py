@@ -11,9 +11,9 @@ def get_name(request):
     if request.method == 'POST':
         form = HeartForm(request.POST)
         if form.is_valid():
-            return HttpResponseRedirect('')
+        	print(form)
+        	return HttpResponseRedirect('google.com')
 
     else:
         form = HeartForm()
-    
     return render(request, 'index.html', {'form':form})
