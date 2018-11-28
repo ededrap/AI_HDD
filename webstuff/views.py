@@ -7,6 +7,7 @@ from .forms import HeartForm
 def index(request):
     return render(request, 'index.html', {'form': HeartForm})
 
+@csrf_exempt
 def calculate(request):
     return JsonResponse({
         'sebuahtest':"kekeke"
