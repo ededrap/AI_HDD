@@ -94,7 +94,6 @@ body, html {
       <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p> -->
-      {% csrf_token %}
       {{ form }}
       <p>
         <button class="w3-button w3-black" type="submit">
@@ -125,6 +124,11 @@ $(document).ready(function(){
     console.log($formData);
     $.ajax({
       method: "POST",
+      url:'{% url "webstuff:calculate" %}',
+      data: $formData,
+      success: function(data){
+        console.log(data);
+      }
     });
   });
 });
