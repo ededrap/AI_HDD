@@ -15,7 +15,7 @@ def preprocessor(data):
         # elif i == 9:
         #    data[i] = oldpeak(float(data[i]))
         elif i == 13:
-            if (data[i] != "0"):
+            if data[i] != "0":
                 data[i] = 1
         data[i] = float(data[i])
 
