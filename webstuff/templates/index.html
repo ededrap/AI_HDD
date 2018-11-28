@@ -25,6 +25,7 @@ body, html {
     padding: 16px;
 }
 </style>
+
 <script>
 $(document).ready(function(){
   // Add smooth scrolling to all links
@@ -51,6 +52,12 @@ $(document).ready(function(){
   });
 });
 </script>
+
+<head>
+<script src="jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+</head>
 <body>
 
 
@@ -76,7 +83,8 @@ $(document).ready(function(){
   <p class="w3-center w3-large">Please input your message:</p>
   <div style="margin-top:48px">
     <br>
-    <div class="forminti">
+
+    <form action="/" method="post" id="sebuah-form">
       <!-- <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
       <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
@@ -95,7 +103,9 @@ $(document).ready(function(){
           <i class="fa fa-paper-plane"></i> SUBMIT
         </button>
       </p>
-    </div>
+      <p id="result">
+      	
+      </p>
     
   </div>
 </div>
@@ -137,6 +147,25 @@ function onClick(element) {
   var captionText = document.getElementById("caption");
   captionText.innerHTML = element.alt;
 }
+
+$(document).ready(
+	function(){var $myForm = $('#sebuah-form');
+  $myForm.submit(function(event){
+  	document.getElementById("result").innerHTML = "Loading...";
+    event.preventDefault();
+    var formData = $myForm.serialize();
+    console.log(formData);
+    $.ajax({
+    	url: "/calculate/",
+    	method: "POST",
+    	data: formData,
+    	success: function(response){
+    		document.getElementById("result").innerHTML = "Hehe";
+    		console.log(response['result'] + ' ' +response['accuracy'])
+    	}
+    });
+  });
+});
 
 
 // Toggle between showing and hiding the sidebar when clicking the menu icon
