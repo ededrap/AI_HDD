@@ -6,33 +6,25 @@ import os.path
 
 
 import csv
-import numpy as np
+import numpy
+import random
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 column_headers = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
-                  'exang', 'oldpeak', 'slope', 'ca', 'thal', 'class']
-
-
-
-def loadCsv(filename):
-    lines = csv.reader(open(os.path.join(BASE, filename), "r"))
-    dataset = list(lines)
-    for i in range(len(dataset)):
-        dataset[i] = preprocessor(dataset[i])
-    return dataset
+                  'exang', 'oldpeak', 'slope', 'ca', 'thal', 'num']
 
 
 def entropy(target_col):
-    elements, counts = np.unique(target_col, return_counts=True)
+    elements, counts = numpy.unique(target_col, return_counts=True)
     entropy = sum(
-        [(-counts[i] / sum(counts)) * np.log2(counts[i] / sum(counts)) for i in range(len(elements))])
+        [(-counts[i] / sum(counts)) * numpy.log2(counts[i] / sum(counts)) for i in range(len(elements))])
     return entropy
 
 
 def info_gain(data, split_attribute_name, target_name="class"):
     total_entropy = entropy(data[target_name])
 
-    vals, counts = np.unique(data[split_attribute_name], return_counts=True)
+    vals, counts = numpy.unique(data[split_attribute_name], return_counts=True)
 
     weighted_entropy = sum(
         [(counts[i] / sum(counts)) * entropy(data.where(data[split_attribute_name] == vals[i]).dropna()[target_name])
@@ -44,22 +36,22 @@ def info_gain(data, split_attribute_name, target_name="class"):
 
 def ID3(data, original_data, features, target_attribute_name="class", parent_node_class=None):
     if len(data) == 0:
-        return np.unique(original_data[target_attribute_name])[
-            np.argmax(np.unique(original_data[target_attribute_name], return_counts=True)[1])]
-    elif len(np.unique(data[target_attribute_name])) == 1:
-        return np.unique(data[target_attribute_name])[0]
+        return numpy.unique(original_data[target_attribute_name])[
+            numpy.argmax(numpy.unique(original_data[target_attribute_name], return_counts=True)[1])]
+    elif len(numpy.unique(data[target_attribute_name])) == 1:
+        return numpy.unique(data[target_attribute_name])[0]
     elif len(features) == 0:
         return parent_node_class
     else:
-        parent_node_class = np.unique(data[target_attribute_name])[
-            np.argmax(np.unique(data[target_attribute_name], return_counts=True)[1])]
+        parent_node_class = numpy.unique(data[target_attribute_name])[
+            numpy.argmax(numpy.unique(data[target_attribute_name], return_counts=True)[1])]
         item_values = [info_gain(data, feature, target_attribute_name) for feature in features]
-        best_feature_index = np.argmax(item_values)
+        best_feature_index = numpy.argmax(item_values)
         best_feature = features[best_feature_index]
         tree = {best_feature: {}}
         features = [i for i in features if i != best_feature]
 
-        for value in np.unique(data[best_feature]):
+        for value in numpy.unique(data[best_feature]):
             sub_data = data.where(data[best_feature] == value).dropna()
             subtree = ID3(sub_data, original_data, features, target_attribute_name, parent_node_class)
             tree[best_feature][value] = subtree
@@ -85,40 +77,53 @@ def test(data, tree):
     predicted = DataFrame(columns=["predicted"])
     for i in range(len(data)):
         predicted.loc[i, "predicted"] = predict(queries[i], tree, 1)
-        #print(queries[i])
-        #print(predicted.loc[i, "predicted"])
-    accuracy =  (np.sum(predicted["predicted"] == data["class"]) / len(data)) * 100
-    print('The prediction accuracy is: ', accuracy, '%')
-    return accuracy
+        prediction = predicted.loc[i, "predicted"]
+
+    accuracy = numpy.round(numpy.sum(predicted["predicted"] == data["num"]) / len(data) * 100, 2)
+    return prediction, accuracy
 
 
 def train_test_split(dataset, split_ratio):
     train_size = int(len(dataset.index) * split_ratio)
-    training_data = dataset.iloc[:train_size].reset_index()
-    testing_data = dataset.iloc[train_size:].reset_index()
+    training_data = DataFrame(columns=column_headers)
+    testing_data = DataFrame(columns=column_headers)
+    for x in range(train_size):
+        i = random.randrange(len(dataset.index))
+        training_data = training_data.append(dataset.iloc[i], ignore_index=True)
+
+    for x in range(len(dataset.index) - train_size):
+        i = random.randrange(len(dataset.index))
+        testing_data = testing_data.append(dataset.iloc[i], ignore_index=True)
+    print(training_data)
+    print(testing_data)
 
     return training_data, testing_data
 
 
+def load_csv(filename):
+    lines = csv.reader(open(filename, "r"))
+    dataset = list(lines)
+    for i in range(len(dataset)):
+        dataset[i] = preprocessor(dataset[i])
+    return dataset
 
 
 def gather_data(dataset):
-
     filename = './data/cleveland_data.csv'
-    dataset += loadCsv(filename)
+    dataset += load_csv(filename)
     filename = './data/hungarian_data.csv'
-    dataset += loadCsv(filename)
+    dataset += load_csv(filename)
     filename = './data/switzerland_data.csv'
-    dataset += loadCsv(filename)
+    dataset += load_csv(filename)
     filename = './data/va_data.csv'
-    dataset += loadCsv(filename)
+    dataset += load_csv(filename)
     return dataset
 
 
 def main():
     dataset = gather_data(dataset=[])
     dataset = DataFrame.from_records(dataset, columns=column_headers)
-    training_data, testing_data = train_test_split(dataset, 0.95)
+    training_data, testing_data = train_test_split(dataset, 0.85)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
     accuracy = test(testing_data, tree)
     # pprint(tree)
@@ -143,8 +148,9 @@ def action(inputan, treenya):
     data = (DataFrame.from_records(prompt, columns=column_headers[:-1])).iloc[:, :].to_dict(orient="records")
     #prediction, accuracy = test(testing_data, tree)
     # return tree
-    #print(prediction)
-    #print(accuracy)
+    print(prediction)
+    print(accuracy)
+
 
     prediction  = predict(data[0], treenya, 1)
     
