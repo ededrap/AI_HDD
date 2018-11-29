@@ -1,15 +1,22 @@
 from pandas import DataFrame
 from webstuff.preprocessor import preprocessor
+import os.path
+
+
+
 
 import csv
 import numpy as np
 
+BASE = os.path.dirname(os.path.abspath(__file__))
 column_headers = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                   'exang', 'oldpeak', 'slope', 'ca', 'thal', 'class']
 
 
+
+
 def loadCsv(filename):
-    lines = csv.reader(open(filename, "r"))
+    lines = csv.reader(open(os.path.join(BASE, filename), "r"))
     dataset = list(lines)
     for i in range(len(dataset)):
         dataset[i] = preprocessor(dataset[i])
@@ -88,12 +95,15 @@ def test(data, tree):
     predicted = DataFrame(columns=["predicted"])
     for i in range(len(data)):
         predicted.loc[i, "predicted"] = predict(queries[i], tree, 1)
-        print(predicted.loc[i, "predicted"])
-
-    print('The prediction accuracy is: ', (np.sum(predicted["predicted"] == data["class"]) / len(data)) * 100, '%')
+        #print(queries[i])
+        #print(predicted.loc[i, "predicted"])
+    accuracy =  (np.sum(predicted["predicted"] == data["class"]) / len(data)) * 100
+    print('The prediction accuracy is: ', accuracy, '%')
+    return accuracy
 
 
 def gather_data(dataset):
+
     filename = './data/cleveland_data.csv'
     dataset += loadCsv(filename)
     filename = './data/hungarian_data.csv'
@@ -105,17 +115,27 @@ def gather_data(dataset):
     return dataset
 
 
-def main():
+def main(inputan):
     dataset = gather_data(dataset=[])
     dataset = DataFrame.from_records(dataset, columns=column_headers)
     training_data, testing_data = train_test_split(dataset, 0.95)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
     # pprint(tree)
-    test(testing_data, tree)
+    accuracy = test(testing_data, tree)
 
-    # prompt = [input().split(",")]
-    # print(prompt)
-    # test(DataFrame.from_records(prompt, columns=column_headers), tree)
+    #prompt = input().split(",")
+    #print(prompt)
+    #print(preprocessor(prompt))
+
+    prompt = [preprocessor(inputan.split(","))]
+
+    data = (DataFrame.from_records(prompt, columns=column_headers[:-1])).iloc[:, :].to_dict(orient="records")
+
+    prediction  = predict(data[0], tree, 1)
+    
+    result = [accuracy, prediction]
+    #test(DataFrame.from_records(prompt, columns=column_headers), tree)
+    return result
 
 
 if __name__ == "__main__":

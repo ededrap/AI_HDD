@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+from webstuff.hddmlformula import main
 import time
 
 from .forms import HeartForm
@@ -11,7 +12,24 @@ def index(request):
 
 @csrf_exempt
 def calculate(request):
-	print(request.POST['attribute1'])
-	data = request
-	time.sleep(2)
-	return JsonResponse({'result' : '1', 'accuracy': '100%'})
+	data = request.POST['age'] + "," + request.POST['gender'] + "," + request.POST['chestpain'] + "," + request.POST['bloodpressure'] + "," + request.POST['chol'] + "," + request.POST['fbs'] + "," + request.POST['restecg'] + "," + request.POST['thalach'] + "," + request.POST['exang'] + "," + request.POST['oldpeak'] + "," + request.POST['slope'] + "," + request.POST['ca'] + "," + request.POST['thal']
+	print(data)
+	name = request.POST['name']
+	age = float(request.POST['age'])
+	gender = float(request.POST['gender'] )
+	chestpain  = float(request.POST['chestpain'])
+	bloodpressure = float(request.POST['bloodpressure'] )
+	chol = float(request.POST['chol'] )
+	fbs = float(request.POST['fbs'] )
+	restecg =  float(request.POST['restecg'] )
+	thalach = float(request.POST['thalach'] )
+	exang =  float(request.POST['exang'] )
+	oldpeak  = float(request.POST['oldpeak'] )
+	slope = float(request.POST['slope'])
+	ca = float(request.POST['ca'])
+	thal  =  float(request.POST['thal'])
+	
+	result = main(data)
+	
+	
+	return JsonResponse({'result' : result[1], 'accuracy': result[0]})

@@ -11,10 +11,10 @@ class HeartForm(forms.Form):
     attrs.update({'placeholder' : 'Age'})
     age = forms.CharField(label='Your age', widget=forms.TextInput(attrs=attrs))
 
-    attrs.update({'placeholder' : 'Male/Female'})
-    sex = forms.CharField(label = 'Gender' , widget=forms.TextInput(attrs=attrs))
+    attrs.update({'placeholder' : '1/0'})
+    gender = forms.CharField(label = 'Gender' , widget=forms.TextInput(attrs=attrs))
 
-    attrs.update({'placeholder' : 'Yes/No'})
+    attrs.update({'placeholder' : '1/0'})
     chestpain = forms.CharField(label = 'Chest pain?' , widget=forms.TextInput(attrs=attrs))
 
     attrs.update({'placeholder' : 'Blood Pressure (mm Hg)'})
@@ -23,26 +23,37 @@ class HeartForm(forms.Form):
     attrs.update({'placeholder' : 'Chol (mg/dl)'})
     chol = forms.CharField(label = 'Cholestoral number' , widget=forms.TextInput(attrs=attrs))
 
-    attrs.update({'placeholder' : 'Yes/No'})
+    attrs.update({'placeholder' : '1/0'})
     fbs = forms.CharField(label = 'Fasting blood sugar > 120 mg/dl' , widget=forms.TextInput(attrs=attrs))
 
-    attrs.update({'placeholder' : 'Smoke'})
-    attribute4 = forms.CharField(label='Do you smoke?', widget=forms.TextInput(attrs=attrs))
-
-    attrs.update({'placeholder' : 'Sport'})
-    attribute5 = forms.CharField(label='Do you do sports often?', widget=forms.TextInput(attrs=attrs))
-    
-    
-    
-    
-    attrs.update({'placeholder' : '0: normal 1: having ST-T wave abnormality 2: showing probable or definite left ventricular hypertrophy by Estes criteria'})
+    attrs.update({'placeholder' : '0/1/2'})
     restecg = forms.CharField(label = 'Resting electrocardiographic results' , widget=forms.TextInput(attrs=attrs))
-    attrs.update({'placeholder' : 'Make Love'})
-    attribute6 = forms.CharField(label = 'Sex' , widget=forms.TextInput(attrs=attrs))
-    attrs.update({'placeholder' : 'Make Love'})
-    attribute6 = forms.CharField(label = 'Sex' , widget=forms.TextInput(attrs=attrs))
-    attrs.update({'placeholder' : 'Make Love'})
-    attribute6 = forms.CharField(label = 'Sex' , widget=forms.TextInput(attrs=attrs))
-    attrs.update({'placeholder' : 'Make Love'})
-    attribute6 = forms.CharField(label = 'Sex' , widget=forms.TextInput(attrs=attrs))
+
+    attrs.update({'placeholder' : 'Maximum heart rate achieved'})
+    thalach = forms.CharField(label = 'Thalach' , widget=forms.TextInput(attrs=attrs))
+
+    attrs.update({'placeholder' : '1/0'})
+    exang = forms.CharField(label = 'Exercise induced angina' , widget=forms.TextInput(attrs=attrs))
+
+    attrs.update({'placeholder' : 'ST depression'})
+    oldpeak = forms.CharField(label = 'Oldpeak' , widget=forms.TextInput(attrs=attrs))
+
+    attrs.update({'placeholder' : '1/2/3'})
+    slope = forms.CharField(label = 'Slope' , widget=forms.TextInput(attrs=attrs))
+
+    attrs.update({'placeholder' : '0/1/2/3'})
+    ca = forms.CharField(label='Ca', widget=forms.TextInput(attrs=attrs))
+
+    attrs.update({'placeholder' : '3/6/7'})
+    thal = forms.CharField(label='Thal', widget=forms.TextInput(attrs=attrs))
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # attribute6 = forms.ChoiceField(label = 'Sex', choices=("Male", "Female"), widget=forms.SelectMultiple(attrs=attrs))
