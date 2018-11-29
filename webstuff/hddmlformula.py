@@ -21,7 +21,7 @@ def entropy(target_col):
     return entropy
 
 
-def info_gain(data, split_attribute_name, target_name="class"):
+def info_gain(data, split_attribute_name, target_name="num"):
     total_entropy = entropy(data[target_name])
 
     vals, counts = numpy.unique(data[split_attribute_name], return_counts=True)
@@ -34,7 +34,7 @@ def info_gain(data, split_attribute_name, target_name="class"):
     return information_gain
 
 
-def ID3(data, original_data, features, target_attribute_name="class", parent_node_class=None):
+def ID3(data, original_data, features, target_attribute_name="num", parent_node_class=None):
     if len(data) == 0:
         return numpy.unique(original_data[target_attribute_name])[
             numpy.argmax(numpy.unique(original_data[target_attribute_name], return_counts=True)[1])]
@@ -94,14 +94,11 @@ def train_test_split(dataset, split_ratio):
     for x in range(len(dataset.index) - train_size):
         i = random.randrange(len(dataset.index))
         testing_data = testing_data.append(dataset.iloc[i], ignore_index=True)
-    print(training_data)
-    print(testing_data)
-
     return training_data, testing_data
 
 
 def load_csv(filename):
-    lines = csv.reader(open(filename, "r"))
+    lines = csv.reader(open(os.path.join(BASE, filename), "r"))
     dataset = list(lines)
     for i in range(len(dataset)):
         dataset[i] = preprocessor(dataset[i])
@@ -125,7 +122,8 @@ def main():
     dataset = DataFrame.from_records(dataset, columns=column_headers)
     training_data, testing_data = train_test_split(dataset, 0.85)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
-    accuracy = test(testing_data, tree)
+    prediction, accuracy = test(testing_data, tree)
+    print(accuracy)
     # pprint(tree)
     result = [tree, accuracy]
 
@@ -148,8 +146,8 @@ def action(inputan, treenya):
     data = (DataFrame.from_records(prompt, columns=column_headers[:-1])).iloc[:, :].to_dict(orient="records")
     #prediction, accuracy = test(testing_data, tree)
     # return tree
-    print(prediction)
-    print(accuracy)
+    #print(prediction)
+    #print(accuracy)
 
 
     prediction  = predict(data[0], treenya, 1)

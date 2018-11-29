@@ -102,9 +102,14 @@ $(document).ready(function(){
         <button class="w3-button w3-black" type="submit">
           <i class="fa fa-paper-plane"></i> SUBMIT
         </button>
-        <a class="w3-button w3-black" href="/">
-          <i class="fa fa-paper-plane"></i> RELOAD
-        </a>
+        <button class="w3-button w3-black" onclick="myFunction2()" type="reset">
+          <i class="fa fa-refresh"></i> RESET
+        </button>
+        <script>
+          function myFunction2() {
+            console.log("debug")
+            document.getElementById("result").innerHTML = ""}
+        </script>
       </p>
 
     </form>
@@ -172,9 +177,9 @@ $(document).ready(
         if(response['result'] == '1') {
           result = 'Halo ' + response['name'] + ", "  + 'Anda berpotensi terkena penyakit jantung'
         } else {
-          result = 'Halo ' + response['name'] + ", "  + ' Anda tidak berpotensi terkena penyakit jantung'
+          result = 'Halo ' + response['name'] + ", "  + 'Anda tidak berpotensi terkena penyakit jantung'
         }
-        document.getElementById("result").innerHTML = result + ' akurasi data adalah ' + response['accuracy'];
+        document.getElementById("result").innerHTML = result + ' akurasi data adalah ' + response['accuracy'] + "%";
       }
     });
   });
