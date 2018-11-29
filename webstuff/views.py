@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
-from webstuff.hddmlformula import main
+from webstuff.hddmlformula import main, action
 import time
 
 from .forms import HeartForm
@@ -30,7 +30,10 @@ def calculate(request):
 	ca = float(request.POST['ca'])
 	thal  =  float(request.POST['thal'])
 	
-	result = main(data)
+	training = main()
+	tree = training[0]
+	accuracy = training[1]
+	result = action(data, tree)
 	
 	
-	return JsonResponse({'result' : result[1], 'accuracy': result[0]})
+	return JsonResponse({'name' : name, 'result' : result, 'accuracy': accuracy})

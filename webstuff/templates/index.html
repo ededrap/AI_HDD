@@ -12,7 +12,7 @@ body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 body, html {
     height: 100%;
     line-height: 1.8;
-    background-color: #8A0707	;
+    background-color: #8A0707 ;
 }
 /* Full height image header */
 .bgimg-1 {
@@ -65,7 +65,7 @@ $(document).ready(function(){
 <!-- Header with full-height image -->
 <header class="bgimg-1 w3-display-container w3-grayscale-min" id="home">
   <div class="w3-display-left w3-text-white" style="padding:48px">
-  	
+    
     <span class="w3-jumbo w3-hide-small">Heart Disease Detector Using Machine Learning</span><br>
     <span class="w3-xxlarge w3-hide-large w3-hide-medium">Start something that matters</span><br>
     <span class="w3-large">Stop wasting valuable time with projects that just isn't you.</span>
@@ -112,7 +112,7 @@ $(document).ready(function(){
 
 
       <h1 id="result">
-      	
+        
       </h1>
     
   </div>
@@ -157,25 +157,25 @@ function onClick(element) {
 }
 
 $(document).ready(
-	function(){var $myForm = $('#sebuah-form');
+  function(){var $myForm = $('#sebuah-form');
   $myForm.submit(function(event){
-  	document.getElementById("result").innerHTML = "Loading...";
+    document.getElementById("result").innerHTML = "Loading...";
     event.preventDefault();
     var formData = $myForm.serialize();
     console.log(formData);
     $.ajax({
-    	url: "/calculate/",
-    	method: "POST",
-    	data: formData,
-    	success: function(response){
+      url: "/calculate/",
+      method: "POST",
+      data: formData,
+      success: function(response){
         result = ''
         if(response['result'] == '1') {
-          result = 'Anda berpotensi terkena penyakit jantung'
+          result = 'Halo ' + response['name'] + ", "  + 'Anda berpotensi terkena penyakit jantung'
         } else {
-          result = 'Anda tidak berpotensi terkena penyakit jantung'
+          result = 'Halo ' + response['name'] + ", "  + ' Anda tidak berpotensi terkena penyakit jantung'
         }
-    		document.getElementById("result").innerHTML = result + ' akurasi data adalah ' + response['accuracy'];
-    	}
+        document.getElementById("result").innerHTML = result + ' akurasi data adalah ' + response['accuracy'];
+      }
     });
   });
 });

@@ -29,7 +29,7 @@ def entropy(target_col):
     return entropy
 
 
-def info_gain(data, split_attribute_name, target_name="num"):
+def info_gain(data, split_attribute_name, target_name="class"):
     total_entropy = entropy(data[target_name])
 
     vals, counts = np.unique(data[split_attribute_name], return_counts=True)
@@ -42,7 +42,7 @@ def info_gain(data, split_attribute_name, target_name="num"):
     return information_gain
 
 
-def ID3(data, original_data, features, target_attribute_name="num", parent_node_class=None):
+def ID3(data, original_data, features, target_attribute_name="class", parent_node_class=None):
     if len(data) == 0:
         return np.unique(original_data[target_attribute_name])[
             np.argmax(np.unique(original_data[target_attribute_name], return_counts=True)[1])]
@@ -54,11 +54,8 @@ def ID3(data, original_data, features, target_attribute_name="num", parent_node_
         parent_node_class = np.unique(data[target_attribute_name])[
             np.argmax(np.unique(data[target_attribute_name], return_counts=True)[1])]
         item_values = [info_gain(data, feature, target_attribute_name) for feature in features]
-        print(item_values)
         best_feature_index = np.argmax(item_values)
-        print(best_feature_index)
         best_feature = features[best_feature_index]
-        print(best_feature)
         tree = {best_feature: {}}
         features = [i for i in features if i != best_feature]
 
@@ -118,19 +115,28 @@ def gather_data(dataset):
     return dataset
 
 
-def main(inputan):
+def main():
     dataset = gather_data(dataset=[])
     dataset = DataFrame.from_records(dataset, columns=column_headers)
     training_data, testing_data = train_test_split(dataset, 0.95)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
-    # pprint(tree)
     accuracy = test(testing_data, tree)
+    # pprint(tree)
+    result = [tree, accuracy]
 
     #prompt = input().split(",")
     #print(prompt)
     #print(preprocessor(prompt))
+    
+    return result
+
+
+def action(inputan, treenya):
+    
     inputansplit = inputan.split(",")
-    for i in inputansplit :
+    print(inputansplit)
+    for i in range (len(inputansplit)) :
+        print(inputansplit[i])
         inputansplit[i] = float(inputansplit[i])
     prompt = [inputansplit]
 
@@ -140,11 +146,12 @@ def main(inputan):
     #print(prediction)
     #print(accuracy)
 
-    prediction  = predict(data[0], tree, 1)
+    prediction  = predict(data[0], treenya, 1)
     
-    result = [accuracy, prediction]
+
     #test(DataFrame.from_records(prompt, columns=column_headers), tree)
-    return result
+    
+    return prediction
 
 
 if __name__ == "__main__":
