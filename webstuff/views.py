@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
+
 from webstuff.hddmlformula import main
 import time
 
@@ -12,13 +13,13 @@ def index(request):
 
 @csrf_exempt
 def calculate(request):
-	data = request.POST['age'] + "," + request.POST['gender'] + "," + request.POST['chestpain'] + "," + request.POST['bloodpressure'] + "," + request.POST['chol'] + "," + request.POST['fbs'] + "," + request.POST['restecg'] + "," + request.POST['thalach'] + "," + request.POST['exang'] + "," + request.POST['oldpeak'] + "," + request.POST['slope'] + "," + request.POST['ca'] + "," + request.POST['thal']
+	data = request.POST['age'] + "," + request.POST['sex'] + "," + request.POST['cp'] + "," + request.POST['trestbps'] + "," + request.POST['chol'] + "," + request.POST['fbs'] + "," + request.POST['restecg'] + "," + request.POST['thalach'] + "," + request.POST['exang'] + "," + request.POST['oldpeak'] + "," + request.POST['slope'] + "," + request.POST['ca'] + "," + request.POST['thal']
 	print(data)
 	name = request.POST['name']
 	age = float(request.POST['age'])
-	gender = float(request.POST['gender'] )
-	chestpain  = float(request.POST['chestpain'])
-	bloodpressure = float(request.POST['bloodpressure'] )
+	sex = float(request.POST['sex'] )
+	cp  = float(request.POST['cp'])
+	trestbps = float(request.POST['trestbps'] )
 	chol = float(request.POST['chol'] )
 	fbs = float(request.POST['fbs'] )
 	restecg =  float(request.POST['restecg'] )

@@ -139,6 +139,9 @@ celerybeat-schedule
 venv/
 ENV/
 
+# dbsqlite
+db.sqlite3
+
 # Spyder project settings
 .spyderproject
 
