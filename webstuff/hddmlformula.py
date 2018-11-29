@@ -1,10 +1,15 @@
 from pandas import DataFrame
 from webstuff.preprocessor import preprocessor
+import os.path
+
+
+
 
 import csv
 import numpy
 import random
 
+BASE = os.path.dirname(os.path.abspath(__file__))
 column_headers = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                   'exang', 'oldpeak', 'slope', 'ca', 'thal', 'num']
 
@@ -115,19 +120,33 @@ def gather_data(dataset):
     return dataset
 
 
-def main():
+def main(inputan):
     dataset = gather_data(dataset=[])
     dataset = DataFrame.from_records(dataset, columns=column_headers)
     training_data, testing_data = train_test_split(dataset, 0.85)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
-    prediction, accuracy = test(testing_data, tree)
+    # pprint(tree)
+    accuracy = test(testing_data, tree)
+
+    #prompt = input().split(",")
+    #print(prompt)
+    #print(preprocessor(prompt))
+    inputansplit = inputan.split(",")
+    for i in inputansplit :
+        inputansplit[i] = float(inputansplit[i])
+    prompt = [inputansplit]
+
+    data = (DataFrame.from_records(prompt, columns=column_headers[:-1])).iloc[:, :].to_dict(orient="records")
+    #prediction, accuracy = test(testing_data, tree)
     # return tree
     print(prediction)
     print(accuracy)
 
-    # prompt = [inumpyut().split(",")]
-    # print(prompt)
-    # test(DataFrame.from_records(prompt, columns=column_headers), tree)
+    prediction  = predict(data[0], tree, 1)
+
+    result = [accuracy, prediction]
+    #test(DataFrame.from_records(prompt, columns=column_headers), tree)
+    return result
 
 
 if __name__ == "__main__":
