@@ -1,2 +1,3 @@
 migrate: bash deployment.sh
 web: gunicorn mesinlearning.wsgi --log-file -
+heroku config:set DISABLE_COLLECTSTATIC=1
