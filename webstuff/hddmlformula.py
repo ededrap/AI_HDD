@@ -1,15 +1,8 @@
 from pandas import DataFrame
-from webstuff.preprocessor import preprocessor
-import os.path
 
-
-
-
-import csv
 import numpy
 import random
 
-BASE = os.path.dirname(os.path.abspath(__file__))
 column_headers = ['age', 'sex', 'cp', 'trestbps', 'chol', 'fbs', 'restecg', 'thalach',
                   'exang', 'oldpeak', 'slope', 'ca', 'thal', 'num']
 
@@ -35,11 +28,11 @@ def info_gain(data, split_attribute_name, target_name="num"):
 
 
 def ID3(data, original_data, features, target_attribute_name="num", parent_node_class=None):
-    if len(data) == 0:
+    if len(numpy.unique(data[target_attribute_name])) <= 1:
+        return numpy.unique(data[target_attribute_name])[0]
+    elif len(data) == 0:
         return numpy.unique(original_data[target_attribute_name])[
             numpy.argmax(numpy.unique(original_data[target_attribute_name], return_counts=True)[1])]
-    elif len(numpy.unique(data[target_attribute_name])) == 1:
-        return numpy.unique(data[target_attribute_name])[0]
     elif len(features) == 0:
         return parent_node_class
     else:
@@ -59,7 +52,7 @@ def ID3(data, original_data, features, target_attribute_name="num", parent_node_
         return tree
 
 
-def predict(query, tree, default=1):
+def predict(query, tree, default=1.0):
     for key in query.keys():
         if key in tree.keys():
             try:
@@ -76,11 +69,18 @@ def test(data, tree):
     queries = data.iloc[:, :-1].to_dict(orient="records")
     predicted = DataFrame(columns=["predicted"])
     for i in range(len(data)):
-        predicted.loc[i, "predicted"] = predict(queries[i], tree, 1)
-        prediction = predicted.loc[i, "predicted"]
+        predicted.loc[i, "predicted"] = predict(queries[i], tree, 1.0)
 
     accuracy = numpy.round(numpy.sum(predicted["predicted"] == data["num"]) / len(data) * 100, 2)
-    return prediction, accuracy
+
+    true_positive = list(predicted.where(predicted["predicted"] == data["num"]).dropna()["predicted"]).count(1.0)
+    false_positive = list(predicted.where(predicted["predicted"] != data["num"]).dropna()["predicted"]).count(1.0)
+    false_negative = list(predicted.where(predicted["predicted"] != data["num"]).dropna()["predicted"]).count(0.0)
+
+    precision = numpy.round(true_positive / (true_positive + false_positive) * 100, 2)
+    recall = numpy.round(true_positive / (true_positive + false_negative) * 100, 2)
+
+    return accuracy, precision, recall
 
 
 def train_test_split(dataset, split_ratio):
@@ -97,66 +97,31 @@ def train_test_split(dataset, split_ratio):
     return training_data, testing_data
 
 
-def load_csv(filename):
-    lines = csv.reader(open(os.path.join(BASE, filename), "r"))
-    dataset = list(lines)
-    for i in range(len(dataset)):
-        dataset[i] = preprocessor(dataset[i])
-    return dataset
-
-
-def gather_data(dataset):
-    filename = './data/cleveland_data.csv'
-    dataset += load_csv(filename)
-    filename = './data/hungarian_data.csv'
-    dataset += load_csv(filename)
-    filename = './data/switzerland_data.csv'
-    dataset += load_csv(filename)
-    filename = './data/va_data.csv'
-    dataset += load_csv(filename)
-    return dataset
-
-
-def main():
-    dataset = gather_data(dataset=[])
+def train(dataset):
     dataset = DataFrame.from_records(dataset, columns=column_headers)
-    training_data, testing_data = train_test_split(dataset, 0.85)
+    training_data, testing_data = train_test_split(dataset, 0.65)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
-    prediction, accuracy = test(testing_data, tree)
-    print(accuracy)
-    # pprint(tree)
-    result = [tree, accuracy]
+    accuracy, precision, recall = test(testing_data, tree)
 
-    #prompt = input().split(",")
-    #print(prompt)
-    #print(preprocessor(prompt))
-    
-    return result
+    return tree, accuracy, precision, recall
 
 
-def action(inputan, treenya):
-    
-    inputansplit = inputan.split(",")
-    print(inputansplit)
-    for i in range (len(inputansplit)) :
-        print(inputansplit[i])
-        inputansplit[i] = float(inputansplit[i])
-    prompt = [inputansplit]
+def ask(query, tree):
+    query_split = query.split(",")
+    for i in range(len(query_split)):
+        query_split[i] = float(query_split[i])
+    prompt = [query_split]
 
-    data = (DataFrame.from_records(prompt, columns=column_headers[:-1])).iloc[:, :].to_dict(orient="records")
-    #prediction, accuracy = test(testing_data, tree)
-    # return tree
-    #print(prediction)
-    #print(accuracy)
+    data = DataFrame.from_records(prompt, columns=column_headers[:-1]).iloc[:, :].to_dict(orient="records")
 
-
-    prediction  = predict(data[0], treenya, 1)
-    
-
-    #test(DataFrame.from_records(prompt, columns=column_headers), tree)
+    prediction = predict(data[0], tree, 1.0)
     
     return prediction
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     result = train(gather_data())
+#     print(result[0])
+#     print(result[1])
+#     print(result[2])
+#     print(result[3])

@@ -1,3 +1,30 @@
+import csv
+import os.path
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+
+
+def load_csv(filename):
+    lines = csv.reader(open(os.path.join(BASE, filename), "r"))
+    dataset = list(lines)
+    for i in range(len(dataset)):
+        dataset[i] = preprocessor(dataset[i])
+    return dataset
+
+
+def gather_data():
+    dataset = []
+    filename = './data/cleveland_data.csv'
+    dataset += load_csv(filename)
+    filename = './data/hungarian_data.csv'
+    dataset += load_csv(filename)
+    filename = './data/switzerland_data.csv'
+    dataset += load_csv(filename)
+    filename = './data/va_data.csv'
+    dataset += load_csv(filename)
+    return dataset
+
+
 def preprocessor(data):
     for i in range(len(data)):
         if data[i] == '?':
@@ -14,10 +41,9 @@ def preprocessor(data):
             data[i] = heart_rate_category(float(data[i]))
         # elif i == 9:
         #    data[i] = oldpeak(float(data[i]))
-        if(len(data) > 13):
-            if i == 13:
-                if data[i] != "0":
-                    data[i] = 1
+        elif i == 13:
+            if data[i] != "0":
+                data[i] = 1
         data[i] = float(data[i])
 
     return data
