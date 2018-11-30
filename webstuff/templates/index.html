@@ -7,6 +7,9 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <style>
 body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
 body, html {
@@ -68,7 +71,7 @@ $(document).ready(function(){
     
     <span class="w3-jumbo w3-hide-small">Heart Disease Detector Using Machine Learning</span><br>
     <span class="w3-xxlarge w3-hide-large w3-hide-medium">Start something that matters</span><br>
-    <span class="w3-large">Stop wasting valuable time with projects that just isn't you.</span>
+    <span class="w3-large">“She smiled, and there it was again, that aching pressure in his chest. Love, or a heart attack. Kind of the same thing.” ― Kristan Higgins, Somebody to Love</span>
     <p><a href="#form" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">Let's Go</a></p>
     <p><a href="#about" class="w3-button w3-white w3-padding-large w3-large w3-margin-top w3-opacity w3-hover-opacity-off">About the Team</a></p>
   </div> 
@@ -84,35 +87,61 @@ $(document).ready(function(){
   <p class="w3-center w3-large">Please input your message:</p>
   <div style="margin-top:48px">
     <br>
-    <form action="/" method="post" id="sebuah-form">
-      <!-- <p><input class="w3-input w3-border" type="text" placeholder="Name" required name="Name"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Email" required name="Email"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Subject" required name="Subject"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p>
-      <p><input class="w3-input w3-border" type="text" placeholder="Message" required name="Message"></p> -->
-      {{ form }}
-      <p>
-        <button class="w3-button w3-black" type="submit">
-          <i class="fa fa-paper-plane"></i> SUBMIT
-        </button>
-        <button class="w3-button w3-black" onclick="myFunction2()" type="reset">
-          <i class="fa fa-refresh"></i> RESET
-        </button>
-        <script>
-          function myFunction2() {
-            console.log("debug")
-            document.getElementById("result").innerHTML = ""}
-        </script>
-      </p>
+    <div class="w3-container" style="">
+      <div style="width:50%; float:left">
+        <form action="/" method="post" id="sebuah-form">
+          {{ form }}
+          <br />
+          <p>
+            <button class="w3-button w3-black" type="submit">
+              <i class="fa fa-paper-plane"></i> SUBMIT
+            </button>
+            <button class="w3-button w3-black" onclick="myFunction2()" type="reset">
+              <i class="fa fa-refresh"></i> RESET
+            </button>
+            <script>
+              function myFunction2() {
+                console.log("debug")
+                document.getElementById("result").innerHTML = ""}
+            </script>
+          </p>
 
-    </form>
+        </form>
+      </div>
+      <div>
+        &nbsp;
+      </div>
+      <div style="width:45%; float:right">
+        <h3 style="text-align: center">Information</h3>
+        <br/>
+        <p>For each attribute, here is the definition:</p>
+        <p>1. Name: Your Fullname.</p> 
+        <p>2. Age: Your current age.</p> 
+        <p>3. Sex: Your gender type.</p> 
+        <p>4. Chestpain: Type of Chest Pain:</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a. Typical Angina: Discomfort that is noted when the heart does not get enough blood or oxygen.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b. Atypical Angina:  Often doesn’t cause pain, but you may feel a vague discomfort in your chest, experience shortness of breath, feel tired or nauseous, have indigestion, or pain in your back or neck.</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c. Non-Anginal Pain: chest pan duration is over 30 minutes or less than 5 seconds, it increases with inspiration, can be brought on with one movement of the trunk or arm, can be brought on by local fingers pressure, or bending forward, or it can be relieved immediately on lying down</p>
+        <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. Asymptomatic: Neither causing nor exhibiting symptoms of disease.</p>
+        <p>5. Resting blood pressure: the pressure of the blood in the circulatory system, often measured for diagnosis since it is closely related to the force and rate of the heartbeat and the diameter and elasticity of the arterial walls</p>
+        <p>6. Serum cholestoral: a measurement of certain elements in the blood, including the amount of high- and low-density lipoprotein cholesterol (HDL and LDL) in a person's blood</p>
+        <p>7. Fasting blood sugar: is the result of a blood sample taken after a patient fasts for at least eight hours. A normal fasting blood sugar level for someone without diabetes is less than 100 mg/dL, or HbA1C below 5.7%.</p>
+        <p>8. Resting Electrocardiographic results <br/>
+        -- Normal <br/>
+        -- Having ST-T wave abnormality (T wave inversions and/or ST elevation or depression of > 0.05 mV) <br/>
+        -- Showing probable or definite left ventricular hypertrophy by Estes' criteria<br/></p>
+        <p>9. Thalach: maximum heart rate achieved</p>
+        <p>10. Exercise induced angina: chest pain happens while exercising</p>
+        <p>11. ST depression: ST depression refers to a finding on an electrocardiogram,wherein the trace in the ST segment is abnormally low below the baseline.</p>
+        <p>12. Slope: the slope of the peak exercise ST segment <br />
+        -- Upsloping<br />
+        -- Flat<br />
+        -- Downsloping<br /></p>
+        <p>13. Fluoroscopy: A test that uses a steady beam of x-rays (like a movie) to look at parts of the body and movement within the body, such as blood moving through a blood vessel. </p>
+        <p>14. Thallium Heart Scan: a diagnostic test that uses a special perfusion-scanning camera and a small amount of thallium-201, a radioactive substance, injected into the bloodstream to produce an image of the blood flow to the heart.</p>
+
+      </div>
+    </div>
     
 
 
