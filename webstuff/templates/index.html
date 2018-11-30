@@ -107,6 +107,9 @@ $(document).ready(function(){
           </p>
 
         </form>
+        <h2 id="result">
+        
+      </h2>
       </div>
       <div>
         &nbsp;
@@ -145,9 +148,7 @@ $(document).ready(function(){
     
 
 
-      <h1 id="result">
-        
-      </h1>
+      
     
   </div>
 </div>
@@ -208,7 +209,7 @@ $(document).ready(
         } else {
           result = 'Halo ' + response['name'] + ", "  + 'Anda tidak berpotensi terkena penyakit jantung'
         }
-        document.getElementById("result").innerHTML = result + ' akurasi data adalah ' + response['accuracy'] + "%";
+        document.getElementById("result").innerHTML = result + '<br/> Akurasi data adalah ' + response['accuracy'] +'%' + '<br/> Presisi data adalah ' + response['precision'] + '%' + '<br/> Recall data adalah ' + response['recall'] + '%';
       }
     });
   });

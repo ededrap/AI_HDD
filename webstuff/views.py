@@ -55,4 +55,5 @@ def calculate(request):
 
 	result = ask(query, tree)
 
-	return JsonResponse({'name': name, 'result': result, 'accuracy': accuracy})
+
+	return JsonResponse({'name': name, 'result': result, 'accuracy': accuracy, 'precision' : precision, 'recall' : recall})
