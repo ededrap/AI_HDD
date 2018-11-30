@@ -40,11 +40,17 @@ def calculate(request):
 		training = train(dataset)
 		tree = training[0]
 		accuracy = training[1]
+		precision = training[2]
+		recall = training[3]
 		request.session['tree'] = tree
 		request.session['accu'] = accuracy
+		request.session['prec'] = precision
+		request.session['recall'] = recall
 	else:
 		tree = request.session['tree']
 		accuracy = request.session['accu']
+		precision = request.session['prec']
+		recall = request.session['recall']
 	request.session.set_expiry(60)  # Tree data Expires in 1 minute
 
 	result = ask(query, tree)

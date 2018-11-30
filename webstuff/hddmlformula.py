@@ -72,15 +72,15 @@ def test(data, tree):
         predicted.loc[i, "predicted"] = predict(queries[i], tree, 1.0)
 
     accuracy = numpy.round(numpy.sum(predicted["predicted"] == data["num"]) / len(data) * 100, 2)
-    # true_positive = numpy.sum(predicted["predicted"] == data["num"] and predicted["predicted"] == 1.0)
-    # false_positive = numpy.sum(predicted["predicted"] != data["num"] and predicted["predicted"] == 1.0)
-    # false_negative = numpy.sum(predicted["predicted"] != data["num"] and predicted["predicted"] == 0.0)
-    # precision = numpy.round(true_positive / (true_positive + false_positive) * 100, 2)
-    # recall = numpy.round(true_positive / (true_positive + false_negative) * 100, 2)
-    #
-    # print(precision)
-    # print(recall)
-    return accuracy
+
+    true_positive = list(predicted.where(predicted["predicted"] == data["num"]).dropna()["predicted"]).count(1.0)
+    false_positive = list(predicted.where(predicted["predicted"] != data["num"]).dropna()["predicted"]).count(1.0)
+    false_negative = list(predicted.where(predicted["predicted"] != data["num"]).dropna()["predicted"]).count(0.0)
+
+    precision = numpy.round(true_positive / (true_positive + false_positive) * 100, 2)
+    recall = numpy.round(true_positive / (true_positive + false_negative) * 100, 2)
+
+    return accuracy, precision, recall
 
 
 def train_test_split(dataset, split_ratio):
@@ -101,10 +101,9 @@ def train(dataset):
     dataset = DataFrame.from_records(dataset, columns=column_headers)
     training_data, testing_data = train_test_split(dataset, 0.65)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
-    accuracy = test(testing_data, tree)
-    result = [tree, accuracy]
+    accuracy, precision, recall = test(testing_data, tree)
 
-    return result
+    return tree, accuracy, precision, recall
 
 
 def ask(query, tree):
@@ -124,3 +123,5 @@ def ask(query, tree):
 #     result = train(gather_data())
 #     print(result[0])
 #     print(result[1])
+#     print(result[2])
+#     print(result[3])
