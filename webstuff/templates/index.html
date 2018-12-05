@@ -54,6 +54,7 @@ $(document).ready(function(){
    
         // Add hash (#) to URL when done scrolling (default click behavior)
         window.location.hash = hash;
+        history.pushState("", document.title, window.location.pathname + window.location.search);
       });
     } // End if
   });
