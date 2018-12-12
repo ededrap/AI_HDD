@@ -99,7 +99,7 @@ def train_test_split(dataset, split_ratio):
 
 def train(dataset):
     dataset = DataFrame.from_records(dataset, columns=column_headers)
-    training_data, testing_data = train_test_split(dataset, 0.65)
+    training_data, testing_data = train_test_split(dataset, 0.88)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
     accuracy, precision, recall = test(testing_data, tree)
 

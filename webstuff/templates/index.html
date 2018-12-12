@@ -203,8 +203,8 @@ $(document).ready(
       method: "POST",
       data: formData,
       success: function(response){
-        result = ''
-        if(response['result'] == '1') {
+        result = '';
+        if(response['result'] === '1') {
           result = 'Halo ' + response['name'] + ", "  + 'Anda berpotensi terkena penyakit jantung'
         } else {
           result = 'Halo ' + response['name'] + ", "  + 'Anda tidak berpotensi terkena penyakit jantung'
