@@ -51,7 +51,6 @@ def calculate(request):
 		accuracy = request.session['accu']
 		precision = request.session['prec']
 		recall = request.session['recall']
-	request.session.set_expiry(60)  # Tree data Expires in 1 minute
 
 	result = ask(query, tree)
 
