@@ -65,7 +65,7 @@ def predict(query, tree, default=1.0):
                     return result
 
             except KeyError:
-                print(query[key])
+                print("hehe")
                 return default
 
 
@@ -89,15 +89,21 @@ def test(data, tree):
 
 def train_test_split(dataset, split_ratio):
     train_size = int(len(dataset.index) * split_ratio)
-    training_data = dataset.iloc[:train_size].reset_index(drop=True)
-    testing_data = dataset.iloc[train_size:].reset_index(drop=True)
+    training_data = DataFrame(columns=column_headers)
+    testing_data = DataFrame(columns=column_headers)
+    for x in range(train_size):
+        i = random.randrange(len(dataset.index))
+        training_data = training_data.append(dataset.iloc[i], ignore_index=True)
 
+    for x in range(len(dataset.index) - train_size):
+        i = random.randrange(len(dataset.index))
+        testing_data = testing_data.append(dataset.iloc[i], ignore_index=True)
     return training_data, testing_data
 
 
 def train(dataset):
     dataset = DataFrame.from_records(dataset, columns=column_headers)
-    training_data, testing_data = train_test_split(dataset, 0.80)
+    training_data, testing_data = train_test_split(dataset, 0.90)
     tree = ID3(training_data, dataset, dataset.columns[:-1])
     accuracy, precision, recall = test(testing_data, tree)
 
@@ -118,9 +124,3 @@ def ask(query, tree):
     return prediction
 
 
-# if __name__ == "__main__":
-#     result = train(gather_data())
-#     print(result[0])
-#     print(result[1])
-#     print(result[2])
-#     print(result[3])
